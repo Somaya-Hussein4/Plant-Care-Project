@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:graduation_project/core/di/app_dependencies.dart';
+
 import 'package:graduation_project/core/theming/colors.dart';
-import 'package:graduation_project/features/auth/presentation/views/signup_page.dart';
+
 import 'package:graduation_project/features/splash_screen/splash_screen.dart';
 
 class App extends StatelessWidget {
