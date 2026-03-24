@@ -1,0 +1,86 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation_project/core/shared_widgets/custom_app_text.dart';
+import 'package:graduation_project/core/theming/colors.dart';
+import 'package:graduation_project/core/theming/style.dart';
+import 'package:graduation_project/features/home/logic/home_cubit.dart';
+import 'package:graduation_project/features/home/logic/home_state.dart';
+import 'package:graduation_project/features/home/presentation/widgets/choose-from-gallery.dart';
+
+import 'package:graduation_project/features/home/presentation/widgets/scan-card.dart';
+import 'package:graduation_project/features/home/presentation/widgets/tips_card.dart';
+import 'package:image_picker/image_picker.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<HomeCubit, HomeState>(
+      listener: (context, state) {
+        if (state is HomeNavigateToResult) {
+          // Navigate to the result page, passing the path
+          Navigator.pushNamed(context, '/result', arguments: state.path);
+        }
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CustomAppText(title: 'Plant Disease Detection'),
+              SizedBox(height: 30.h),
+              Text(
+                'Scan Your Crop',
+                style: TextStyles.font18DarkGreen400Weight,
+              ),
+              Text(
+                'Capture a photo to detect plant ',
+                style: TextStyles.font18DarkGreen400Weight,
+              ),
+              Text(
+                'diseases',
+                style: TextStyles.font18DarkGreen400Weight,
+              ),
+              SizedBox(height: 20.h),
+              ScanCard(
+                onScanTap: () => context
+                    .read<HomeCubit>()
+                    .handleImageSelection(ImageSource.camera),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Divider(color: ColorsManager.secondaryGreen)),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.h),
+                      child: Text(
+                        "OR",
+                        style: TextStyles.font18DarkGreen400Weight,
+                      ),
+                    ),
+                    Expanded(
+                        child: Divider(color: ColorsManager.secondaryGreen)),
+                  ],
+                ),
+              ),
+              ChooseFromGalleryButton(
+                onTap: () => context
+                    .read<HomeCubit>()
+                    .handleImageSelection(ImageSource.gallery),
+              ),
+              TipsCard(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
