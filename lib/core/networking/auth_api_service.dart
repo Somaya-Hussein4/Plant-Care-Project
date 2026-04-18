@@ -19,4 +19,7 @@ abstract class AuthApiService {
 
   @POST(ApiConstants.logout)
   Future<void> logout(@Body() Map<String, dynamic> body);
+  //login with google
+  @POST(ApiConstants.socialLogin)
+  Future<AuthResponseModel> googleLogin(@Body() Map<String, dynamic> body);
 }

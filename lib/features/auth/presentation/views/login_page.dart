@@ -5,11 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:graduation_project/core/shared_widgets/app_button.dart';
 import 'package:graduation_project/core/shared_widgets/app_main_image.dart';
 import 'package:graduation_project/core/shared_widgets/app_text_form_field.dart';
+import 'package:graduation_project/core/theming/colors.dart';
 
 import 'package:graduation_project/core/theming/style.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_state.dart';
 import 'package:graduation_project/features/auth/presentation/widgets/dont_have_account_text.dart';
+import 'package:graduation_project/features/auth/presentation/widgets/login_with_google.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -135,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
 
-                        SizedBox(height: 130.h),
+                        SizedBox(height: 124.h),
 
                         /// Login button / loader
                         state.maybeWhen(
@@ -158,8 +160,9 @@ class _LoginPageState extends State<LoginPage> {
                                         }
                                       : null,
                                 )),
-                        SizedBox(height: 24.h),
-                        DontHaveAccountText()
+                        SizedBox(height: 50.h),
+
+                        DontHaveAccountText(),
                       ],
                     ),
                   ),

@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/colors.dart';
 
-import 'package:flutter/material.dart';
 import 'package:graduation_project/core/theming/style.dart';
 
 class ProfileHeaderCard extends StatelessWidget {
@@ -22,7 +21,6 @@ class ProfileHeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Using a SizedBox to provide enough space for the overflowing Stack
         SizedBox(
           height: 160,
           child: Stack(

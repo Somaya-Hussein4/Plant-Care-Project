@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:graduation_project/core/shared_widgets/custom_app_text.dart';
 import 'package:graduation_project/core/theming/colors.dart';
 import 'package:graduation_project/core/theming/style.dart';
@@ -24,10 +25,13 @@ class _HomePageState extends State<HomePage> {
     return BlocListener<HomeCubit, HomeState>(
       listener: (context, state) {
         if (state is HomeNavigateToResult) {
-          // Navigate to the result page, passing the path
-          Navigator.pushNamed(context, '/result', arguments: state.path);
+          context.pushNamed('result', extra: state.path);
+
+          context.read<HomeCubit>().reset();
         }
       },
+      // your existing home page widget
+
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(

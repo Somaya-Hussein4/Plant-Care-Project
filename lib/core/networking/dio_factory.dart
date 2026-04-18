@@ -14,11 +14,9 @@ class DioFactory {
       ),
     );
 
-    // Add interceptors
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          // Attach access token if available
           final token = await storage.read(key: "accessToken");
           if (token != null) {
             options.headers["Authorization"] = "Bearer $token";
@@ -26,39 +24,40 @@ class DioFactory {
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          // You can log or transform responses here
           return handler.next(response);
         },
         onError: (DioException e, handler) async {
-          // Handle 401 errors (unauthorized) → try refresh token
           if (e.response?.statusCode == 401) {
             final refreshToken = await storage.read(key: "refreshToken");
+
             if (refreshToken != null) {
               try {
                 final refreshResponse = await dio.post(
                   "/refresh-token",
                   data: {"refreshToken": refreshToken},
                 );
+
                 final newAccessToken =
                     refreshResponse.data["data"]["tokens"]["accessToken"];
                 final newRefreshToken =
                     refreshResponse.data["data"]["tokens"]["refreshToken"];
 
-                // Save new tokens
                 await storage.write(key: "accessToken", value: newAccessToken);
                 await storage.write(
                     key: "refreshToken", value: newRefreshToken);
 
-                // Retry the failed request with new token
                 e.requestOptions.headers["Authorization"] =
                     "Bearer $newAccessToken";
                 final clonedRequest = await dio.fetch(e.requestOptions);
                 return handler.resolve(clonedRequest);
               } catch (refreshError) {
-                return handler.next(e); // if refresh fails, propagate error
+                await storage.delete(key: "accessToken");
+                await storage.delete(key: "refreshToken");
+                return handler.next(e);
               }
             }
           }
+
           return handler.next(e);
         },
       ),

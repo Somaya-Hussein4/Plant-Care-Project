@@ -11,7 +11,7 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true          // ← Kotlin DSL syntax
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -26,7 +26,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        multiDexEnabled = true                         // ← needs = in Kotlin DSL
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -42,4 +42,16 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+}
+tasks.whenTaskAdded {
+    if (name == "packageDebug") {
+        doLast {
+            val src = file("${layout.buildDirectory.get()}/outputs/apk/debug/app-debug.apk")
+            val dst = file("${rootProject.projectDir.parentFile}/build/app/outputs/flutter-apk/app-debug.apk")
+            if (src.exists()) {
+                dst.parentFile.mkdirs()
+                src.copyTo(dst, overwrite = true)
+            }
+        }
+    }
 }

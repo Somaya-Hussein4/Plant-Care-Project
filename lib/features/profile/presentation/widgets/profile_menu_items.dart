@@ -20,8 +20,7 @@ class ProfileMenuItem extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent, // let Container handle the color
-
+      color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(20.r),
@@ -32,7 +31,7 @@ class ProfileMenuItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: ColorsManager.midGrey, // 0x80DADADA
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: ColorsManager.borderGrey), // 0xFFC4C4C4
+            border: Border.all(color: ColorsManager.borderGrey),
           ),
           child: Row(
             children: [

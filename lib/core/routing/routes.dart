@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:graduation_project/core/networking/api_constant.dart';
 import 'package:graduation_project/core/networking/auth_api_service.dart';
 import 'package:graduation_project/core/networking/dio_factory.dart';
 import 'package:graduation_project/core/shared_widgets/main_scaffold.dart';
@@ -11,6 +14,11 @@ import 'package:graduation_project/features/auth/data/repo/auth_repository.dart'
 import 'package:graduation_project/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:graduation_project/features/auth/presentation/views/login_page.dart';
 import 'package:graduation_project/features/auth/presentation/views/signup_page.dart';
+import 'package:graduation_project/features/history/data/api_service/history_api_service.dart';
+import 'package:graduation_project/features/history/data/repo/history_repo.dart';
+import 'package:graduation_project/features/history/data/source/history_remote_ds.dart';
+import 'package:graduation_project/features/history/logic/cubit/history_cubit.dart';
+import 'package:graduation_project/features/history/presentation/views/history_page.dart';
 import 'package:graduation_project/features/home/data/image_picker.dart';
 import 'package:graduation_project/features/home/logic/home_cubit.dart';
 import 'package:graduation_project/features/home/presentation/views/home_page.dart';
@@ -21,6 +29,9 @@ import 'package:graduation_project/features/notifications/data/sources/weather_r
 import 'package:graduation_project/features/notifications/logic/cubit/notification_cubit.dart';
 import 'package:graduation_project/features/notifications/presentation/views/notifications_page.dart';
 import 'package:graduation_project/features/profile/presentation/views/profile_page.dart';
+import 'package:graduation_project/features/result/data/repo/result_repo.dart';
+import 'package:graduation_project/features/result/logic/cubit/result_cubit.dart';
+import 'package:graduation_project/features/result/presentation/views/result_page.dart';
 import 'package:graduation_project/features/splash_screen/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -117,6 +128,37 @@ final GoRouter appRouter = GoRouter(
           path: '/about',
           builder: (context, state) => const AboutUsPage(),
         ),
+        GoRoute(
+          path: '/result',
+          name: 'result',
+          builder: (context, state) {
+            final imagePath = state.extra as String;
+            final storage = const FlutterSecureStorage();
+            final dio = DioFactory.createDio(storage);
+            final repository = ResultRepository(dio);
+
+            return BlocProvider(
+              create: (_) => ResultCubit(repository)..scan(imagePath),
+              child: const ResultPage(),
+            );
+          },
+        ),
+        GoRoute(
+          path: '/history',
+          builder: (context, state) {
+            final storage = const FlutterSecureStorage();
+            final dio = Dio(BaseOptions(baseUrl: ApiConstants.plant));
+            final apiService = HistoryApiService(dio);
+            final remote = HistoryRemoteDataSource(apiService);
+            final repo = HistoryRepository(remote);
+
+            return BlocProvider(
+              create: (_) =>
+                  HistoryCubit(repo, storage: storage)..fetchHistory(),
+              child: const HistoryPage(),
+            );
+          },
+        ),
         /* 
         
         GoRoute(
@@ -127,10 +169,7 @@ final GoRouter appRouter = GoRouter(
           path: '/scan',
           builder: (context, state) => const ScanPage(),
         ),
-        GoRoute(
-          path: '/history',
-          builder: (context, state) => const HistoryPage(),
-        ),
+        
        */
       ],
     ),

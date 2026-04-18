@@ -11,6 +11,7 @@ import 'package:graduation_project/core/theming/style.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_state.dart';
 import 'package:graduation_project/features/auth/presentation/widgets/already_have_account_text.dart';
+import 'package:graduation_project/features/auth/presentation/widgets/login_with_google.dart';
 
 class SignupPage extends StatefulWidget {
   SignupPage({super.key});
@@ -170,46 +171,15 @@ class _SignupPageState extends State<SignupPage> {
                                   const EdgeInsets.symmetric(horizontal: 8),
                               child: Text(
                                 "Or continue with",
-                                style:
-                                    TextStyle(color: ColorsManager.lightGrey),
+                                style: TextStyles.font14DarkGrey400Weight,
                               ),
                             ),
                             Expanded(child: Divider()),
                           ],
                         ),
                         SizedBox(height: 15.h),
-                        OutlinedButton(
-                          onPressed: () {
-                            // Handle Google login
-                          },
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: ColorsManager.white,
-                            side: BorderSide(color: ColorsManager.lightGrey),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/google.png', // Google logo
-                                height: 20,
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                "Login with Google",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 15.h),
+                        LoginWithGoogle(),
+                        SizedBox(height: 20.h),
 
                         AlreadyHaveAccountText()
                       ],

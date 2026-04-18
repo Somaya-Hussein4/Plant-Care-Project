@@ -12,3 +12,23 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+# Flutter / Dart
+build/
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Android
+android/build/
+*.iml
+
+# iOS
+ios/Pods/
+
+# IDE
+.idea/
+.vscode/
+
+# Logs
+*.log

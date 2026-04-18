@@ -42,16 +42,13 @@ class AboutUsPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: ColorsManager.white,
                   borderRadius: BorderRadius.circular(16),
-                  border:
-                      Border.all(color: ColorsManager.borderGrey), // 0xFFC4C4C4
+                  border: Border.all(color: ColorsManager.borderGrey),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(16.w),
                   child: Text(
                       'Plant Care is a mobile application dedicated to helping tomato growers keep their plants healthy. In this version, all features are focused exclusively on tomato plants — from disease detection to daily care tips.',
-                      style:
-                          TextStyles.font16DarkGrey400Weight // use your style
-                      ),
+                      style: TextStyles.font16DarkGrey400Weight),
                 ),
               ),
               SizedBox(height: 20.h),
@@ -60,18 +57,17 @@ class AboutUsPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: ColorsManager.white,
                   borderRadius: BorderRadius.circular(16),
-                  border:
-                      Border.all(color: ColorsManager.borderGrey), // 0xFFC4C4C4
+                  border: Border.all(color: ColorsManager.borderGrey),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(16.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('What We Offer:',
-                          style:
-                              TextStyles.font20Black900weight // use your style
-                          ),
+                      Text(
+                        'What We Offer:',
+                        style: TextStyles.font20Black900weight,
+                      ),
                       SizedBox(height: 16.h),
                       FeatureItem(
                         icon: Icons.local_florist,
@@ -115,13 +111,11 @@ class AboutUsPage extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                padding: const EdgeInsets.all(
-                    2), // 👈 this becomes the border thickness
+                padding: const EdgeInsets.all(2),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: ColorsManager.white, // 👈 white background inside
-                    borderRadius:
-                        BorderRadius.circular(15), // slightly less than outer
+                    color: ColorsManager.white,
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(16.w),
@@ -141,8 +135,7 @@ class AboutUsPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: ColorsManager.white,
                   borderRadius: BorderRadius.circular(16),
-                  border:
-                      Border.all(color: ColorsManager.borderGrey), // 0xFFC4C4C4
+                  border: Border.all(color: ColorsManager.borderGrey),
                 ),
                 child: Center(
                   child: RichText(
@@ -153,7 +146,7 @@ class AboutUsPage extends StatelessWidget {
                             style: TextStyles.font14DarkGrey400Weight),
                         TextSpan(
                             text:
-                                '\nFaculty of Computer and Information Sciences.',
+                                '\nFaculty of Computers and Information Technology.',
                             style: TextStyles.font14Black400Weight),
                         TextSpan(
                             text: '\nVersion 1.0.0',
