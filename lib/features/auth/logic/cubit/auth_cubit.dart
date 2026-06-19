@@ -1,16 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graduation_project/core/services/user_device_service.dart';
 import 'package:graduation_project/features/auth/data/repo/auth_repository.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_state.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository repository;
   final UserDeviceService _deviceService;
 
-  AuthCubit(this.repository)
-      : _deviceService = UserDeviceService(),
+  AuthCubit(this.repository, {UserDeviceService? deviceService})
+      : _deviceService = deviceService ?? UserDeviceService(),
         super(const AuthState.initial());
 
   Future<void> login(String email, String password) async {
@@ -20,13 +22,15 @@ class AuthCubit extends Cubit<AuthState> {
 
       final user = response.data.user;
       if (user == null) {
-        emit(const AuthState.failure('User data not found'));
+        emit(AuthState.failure(S.current.userDataNotFound));
         return;
       }
 
-      await FirebaseAuth.instance.signInAnonymously();
-      final firebaseUid = FirebaseAuth.instance.currentUser?.uid ?? '';
-      await _deviceService.initAndSaveUserDevice(firebaseUid);
+      try {
+        await FirebaseAuth.instance.signInAnonymously();
+        final firebaseUid = FirebaseAuth.instance.currentUser?.uid ?? '';
+        _deviceService.initAndSaveUserDevice(firebaseUid);
+      } catch (e) {}
 
       emit(AuthState.success(user));
     } catch (e) {
@@ -37,17 +41,19 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signup(String name, String email, String password) async {
     emit(const AuthState.loading());
     try {
-      final response = await repository.signup(email, password);
+      final response = await repository.signup(name, email, password);
 
       final user = response.data.user;
       if (user == null) {
-        emit(const AuthState.failure('User data not found'));
+        emit(AuthState.failure(S.current.userDataNotFound));
         return;
       }
 
-      await FirebaseAuth.instance.signInAnonymously();
-      final firebaseUid = FirebaseAuth.instance.currentUser?.uid ?? '';
-      await _deviceService.initAndSaveUserDevice(firebaseUid);
+      try {
+        await FirebaseAuth.instance.signInAnonymously();
+        final firebaseUid = FirebaseAuth.instance.currentUser?.uid ?? '';
+        _deviceService.initAndSaveUserDevice(firebaseUid);
+      } catch (e) {}
 
       emit(AuthState.success(user));
     } catch (e) {
@@ -77,9 +83,9 @@ class AuthCubit extends Cubit<AuthState> {
     emit(const AuthState.loading());
     try {
       final googleSignIn = GoogleSignIn(
-        clientId:
-            '991967782062-i59ielr5tms81o0nn03kuj209jasudbd.apps.googleusercontent.com',
+        serverClientId: dotenv.env['GOOGLE_SERVER_CLIENT_ID'],
       );
+      await googleSignIn.signOut();
 
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
@@ -92,24 +98,31 @@ class AuthCubit extends Cubit<AuthState> {
       final String? idToken = googleAuth.idToken;
 
       if (idToken == null) {
-        emit(const AuthState.failure('Failed to get Google ID token'));
+        emit(AuthState.failure(S.current.userDataNotFound));
         return;
       }
 
       final response = await repository.googleLogin(idToken);
       final user = response.data.user;
       if (user == null) {
-        emit(const AuthState.failure('User data not found'));
+        emit(AuthState.failure(S.current.userDataNotFound));
         return;
       }
 
-      await FirebaseAuth.instance.signInAnonymously();
-      final firebaseUid = FirebaseAuth.instance.currentUser?.uid ?? '';
-      await _deviceService.initAndSaveUserDevice(firebaseUid);
+      try {
+        await FirebaseAuth.instance.signInAnonymously();
+        final firebaseUid = FirebaseAuth.instance.currentUser?.uid ?? '';
+        _deviceService.initAndSaveUserDevice(firebaseUid);
+      } catch (e) {}
 
       emit(AuthState.success(user));
     } catch (e) {
       emit(AuthState.failure(e.toString()));
     }
+  }
+
+  Future<String> _getFirebaseUid() async {
+    await FirebaseAuth.instance.signInAnonymously();
+    return FirebaseAuth.instance.currentUser?.uid ?? '';
   }
 }

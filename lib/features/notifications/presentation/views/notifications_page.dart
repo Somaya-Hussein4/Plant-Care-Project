@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/core/shared_widgets/custom_app_text.dart';
 import 'package:graduation_project/core/theming/colors.dart';
 import 'package:graduation_project/features/notifications/presentation/widgets/notifications_list_view.dart';
+import 'package:graduation_project/generated/l10n.dart';
 import '../../logic/cubit/notification_cubit.dart';
 import '../../logic/cubit/notification_state.dart';
 
@@ -27,11 +28,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CustomAppText(title: '  Notifications'),
-            BlocBuilder<NotificationCubit, NotificationState>(
+      body: Column(
+        children: [
+          CustomAppText(title: (context) => S.of(context).notifications),
+          Expanded(
+            child: BlocBuilder<NotificationCubit, NotificationState>(
               builder: (context, state) {
                 return state.when(
                   initial: () => const SizedBox.shrink(),
@@ -61,8 +62,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 );
               },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

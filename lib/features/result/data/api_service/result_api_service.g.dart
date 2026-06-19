@@ -12,9 +12,7 @@ class _ResultApiService implements ResultApiService {
   _ResultApiService(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'http://localhost:4000/api/plant';
-  }
+  });
 
   final Dio _dio;
 

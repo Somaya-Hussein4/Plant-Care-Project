@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 
-/// Call this once after the user logs in (or on app start if already logged in).
 class UserDeviceService {
   final FirebaseFirestore _firestore;
   final FirebaseMessaging _messaging;
@@ -13,7 +14,6 @@ class UserDeviceService {
   })  : _firestore = firestore ?? FirebaseFirestore.instance,
         _messaging = messaging ?? FirebaseMessaging.instance;
 
-  /// Requests permissions, fetches FCM token and location, then stores them.
   Future<void> initAndSaveUserDevice(String userId) async {
     await Future.wait([
       _saveToken(userId),
@@ -22,7 +22,6 @@ class UserDeviceService {
   }
 
   Future<void> _saveToken(String userId) async {
-    // Request permission (iOS)
     await _messaging.requestPermission(
       alert: true,
       badge: true,
@@ -37,7 +36,6 @@ class UserDeviceService {
       SetOptions(merge: true),
     );
 
-    // Listen for token refreshes
     _messaging.onTokenRefresh.listen((newToken) {
       _firestore.collection('users').doc(userId).set(
         {'fcmToken': newToken},
@@ -48,30 +46,60 @@ class UserDeviceService {
 
   Future<void> _saveLocation(String userId) async {
     try {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) return;
+      final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        return;
+      }
 
-      LocationPermission permission = await Geolocator.checkPermission();
+      var permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) return;
       }
       if (permission == LocationPermission.deniedForever) return;
 
-      final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low, // low is enough for weather
+      // Use stream instead of one-shot — more reliable on emulators
+      final completer = Completer<Position>();
+
+      final sub = Geolocator.getPositionStream(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.low,
+          distanceFilter: 0,
+        ),
+      ).listen(
+        (position) {
+          if (!completer.isCompleted) {
+            completer.complete(position);
+          }
+        },
+        onError: (e) {
+          if (!completer.isCompleted) {
+            completer.completeError(e);
+          }
+        },
       );
 
-      await _firestore.collection('users').doc(userId).set(
-        {
-          'latitude': position.latitude,
-          'longitude': position.longitude,
-        },
-        SetOptions(merge: true),
-      );
-    } catch (e) {
-      // Location is optional — don't crash the app
-      print('Location fetch failed: $e');
-    }
+      try {
+        // wait max 10 seconds for first position from stream
+        final position = await completer.future.timeout(
+          const Duration(seconds: 10),
+        );
+
+        await sub.cancel();
+
+        await _savePositionToFirestore(
+            userId, position.latitude, position.longitude);
+      } on TimeoutException {
+        await sub.cancel();
+      }
+    } catch (e, stack) {}
+  }
+
+  Future<void> _savePositionToFirestore(
+      String userId, double lat, double lng) async {
+    await _firestore.collection('users').doc(userId).set(
+      {'latitude': lat, 'longitude': lng},
+      SetOptions(merge: true),
+    );
   }
 }

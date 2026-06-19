@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/colors.dart';
 import 'package:graduation_project/core/theming/style.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class ChooseFromGalleryButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -37,26 +37,26 @@ class ChooseFromGalleryButton extends StatelessWidget {
               color: ColorsManager.darkGreen,
             ),
             label: Text(
-              'Choose from Gallery',
+              S.of(context).chooseFromGallery,
               style: TextStyles.font18DarkGreen400Weight,
             ),
             style: ButtonStyle(
               // Inner background
-              backgroundColor: MaterialStateProperty.all(ColorsManager.white),
+              backgroundColor: WidgetStateProperty.all(ColorsManager.white),
 
               // IMPORTANT: remove default border
-              side: MaterialStateProperty.all(BorderSide.none),
+              side: WidgetStateProperty.all(BorderSide.none),
 
               // Match inner radius with outer (minus padding)
-              shape: MaterialStateProperty.all(
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(19.h),
                 ),
               ),
 
               // Optional: remove splash overlay color
-              overlayColor: MaterialStateProperty.all(
-                ColorsManager.primaryGreen.withOpacity(0.05),
+              overlayColor: WidgetStateProperty.all(
+                ColorsManager.primaryGreen,
               ),
             ),
           ),

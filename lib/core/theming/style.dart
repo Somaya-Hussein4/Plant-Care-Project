@@ -63,7 +63,41 @@ class TextStyles {
       color: ColorsManager.darkGreen);
   static TextStyle font20Black900weight = TextStyle(
       fontSize: 20.sp, fontWeight: FontWeight.w900, color: ColorsManager.black);
+  static TextStyle font14Red400Weight = TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w400,
+      color: ColorsManager.primaryRed);
+  static TextStyle font14Orange400Weight = TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w400,
+      color: ColorsManager.orange);
+  static TextStyle font14Green400Weight = TextStyle(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w400,
+      color: ColorsManager.primaryGreen);
+  static TextStyle font18darkGreen600Weight = TextStyle(
+      fontSize: 18.sp,
+      fontWeight: FontWeight.w600,
+      color: ColorsManager.darkGreen);
+  static TextStyle font16darkGreen600Weight = TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w600,
+      color: ColorsManager.darkGreen);
+  static TextStyle font16darkGreen400Weight = TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w400,
+      color: ColorsManager.darkGreen);
+  static TextStyle font16veryDarkGrey400Weight = TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w400,
+      color: ColorsManager.veryDarkGrey);
+  static TextStyle font16secondaryRedWithOpacity400Weight = TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w400,
+      color: ColorsManager.secondaryRedWithOpacity);
 
+  static TextStyle font16White400Weight = TextStyle(
+      fontSize: 16.sp, fontWeight: FontWeight.w400, color: ColorsManager.white);
   static TextStyle font24Gradient400Weight = TextStyle(
       fontSize: 24.sp,
       fontWeight: FontWeight.w400,
@@ -71,4 +105,6 @@ class TextStyles {
         ..shader = LinearGradient(
           colors: [ColorsManager.secondaryGreen, ColorsManager.primaryGreen],
         ).createShader(const Rect.fromLTWH(0, 0, 200, 70)));
+
+  static TextStyle? get font14DarkGreen400Weight => null;
 }

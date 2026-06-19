@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/core/theming/colors.dart';
+import 'package:graduation_project/core/theming/style.dart';
 
 class ResultInfoCard extends StatelessWidget {
   final String description;
-  const ResultInfoCard({super.key, required this.description});
+  final bool isHealthy;
+  const ResultInfoCard(
+      {super.key, required this.description, required this.isHealthy});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFB2DFDB)),
+        color: ColorsManager.midGrey,
+        borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.green.withOpacity(0.06),
-            blurRadius: 8,
+            color: ColorsManager.primaryGreen.withOpacity(0.08),
+            blurRadius: 15,
             offset: const Offset(0, 2),
           ),
         ],
@@ -23,16 +26,18 @@ class ResultInfoCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.info_outline, color: Color(0xFF4CAF50), size: 20),
+          Icon(
+            isHealthy ? Icons.check_circle : Icons.info_outline,
+            color: isHealthy
+                ? ColorsManager.primaryGreen
+                : ColorsManager.secondaryRed,
+            size: 20,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               description,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Color(0xFF333333),
-                height: 1.5,
-              ),
+              style: TextStyles.font16veryDarkGrey400Weight,
             ),
           ),
         ],

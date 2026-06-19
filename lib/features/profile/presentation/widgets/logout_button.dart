@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/colors.dart';
 import 'package:graduation_project/core/theming/style.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class LogoutButton extends StatelessWidget {
   final VoidCallback? onTap;
-  final String label;
+  final String? label;
 
   const LogoutButton({
     super.key,
     this.onTap,
-    this.label = 'Log out',
+    this.label,
   });
 
   @override
@@ -33,7 +34,7 @@ class LogoutButton extends StatelessWidget {
           child: Row(
             children: [
               // Red icon box
-              Container(
+              SizedBox(
                 width: 36,
                 height: 36,
                 child: const Icon(
@@ -46,7 +47,7 @@ class LogoutButton extends StatelessWidget {
               // Label
               Expanded(
                 child: Text(
-                  label,
+                  S.of(context).logout,
                   style: TextStyles.font18semiTransparentBlack400Weight,
                 ),
               ),

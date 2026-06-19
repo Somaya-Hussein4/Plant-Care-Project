@@ -1,3 +1,5 @@
+import 'package:graduation_project/features/history/data/api_service/history_api_service.dart'
+    as _dataSource;
 import 'package:graduation_project/features/history/data/model/history_scan_model.dart';
 import 'package:graduation_project/features/history/data/source/history_remote_ds.dart';
 
@@ -16,7 +18,10 @@ class HistoryRepository {
       page: page,
       limit: limit,
     );
-
     return response.data.scans;
   }
+
+  Future<void> deleteHistory(String userId) async {
+  await _remote.clearHistory(userId);
+}
 }

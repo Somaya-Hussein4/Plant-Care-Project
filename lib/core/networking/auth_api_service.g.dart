@@ -13,7 +13,7 @@ class _AuthApiService implements AuthApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://localhost:3000/api/v1/auth';
+    baseUrl ??= 'http://10.0.2.2:3000/api/v1/auth';
   }
 
   final Dio _dio;
@@ -154,6 +154,62 @@ class _AuthApiService implements AuthApiService {
               baseUrl,
             ))));
     final value = AuthResponseModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MessageResponseModel> sendOtp(Map<String, dynamic> body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MessageResponseModel>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/forget-password',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = MessageResponseModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MessageResponseModel> resetPassword(Map<String, dynamic> body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MessageResponseModel>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/reset-password',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = MessageResponseModel.fromJson(_result.data!);
     return value;
   }
 

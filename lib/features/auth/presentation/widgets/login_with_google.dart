@@ -5,6 +5,7 @@ import 'package:graduation_project/core/theming/colors.dart';
 import 'package:graduation_project/core/theming/style.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_state.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class LoginWithGoogle extends StatelessWidget {
   const LoginWithGoogle({super.key});
@@ -19,6 +20,7 @@ class LoginWithGoogle extends StatelessWidget {
           width: double.infinity,
           height: 55.h,
           child: OutlinedButton(
+            key: const Key('google_signin_btn'),
             onPressed: isLoading
                 ? null
                 : () => context.read<AuthCubit>().googleSignIn(),
@@ -51,7 +53,7 @@ class LoginWithGoogle extends StatelessWidget {
                       ),
                       SizedBox(width: 10.w),
                       Text(
-                        'Login with Google',
+                        S.of(context).loginWithGoogle,
                         style: TextStyles.font16veryDarkGreen600Weight,
                       ),
                     ],

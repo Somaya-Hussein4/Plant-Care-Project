@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/features/notifications/data/repo/notification_repository.dart';
 import 'package:graduation_project/features/notifications/logic/cubit/notification_state.dart';
@@ -10,8 +11,6 @@ class NotificationCubit extends Cubit<NotificationState> {
   NotificationCubit(this._repository)
       : super(const NotificationState.initial());
 
-  // ─── Notifications stream ──────────────────────────────────────────────────
-
   void listenToNotifications(String userId) {
     emit(const NotificationState.loading());
     _subscription?.cancel();
@@ -20,7 +19,6 @@ class NotificationCubit extends Cubit<NotificationState> {
       (notifications) {
         final unread = notifications.where((n) => !n.isRead).length;
 
-        // Preserve existing weather data when stream updates
         final currentWeather =
             state.mapOrNull(loaded: (s) => s.weatherForecast);
 
@@ -34,10 +32,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     );
   }
 
-  // ─── Weather forecast ──────────────────────────────────────────────────────
-
   Future<void> fetchWeatherForecast() async {
-    // Only fetch if we're already in loaded state
     final current = state.mapOrNull(loaded: (s) => s);
     if (current == null) return;
 
@@ -45,7 +40,6 @@ class NotificationCubit extends Cubit<NotificationState> {
 
     final forecast = await _repository.getTomorrowWeatherForecast();
 
-    // Re-read state after async gap in case stream updated while we waited
     final latest = state.mapOrNull(loaded: (s) => s);
     if (latest == null) return;
 

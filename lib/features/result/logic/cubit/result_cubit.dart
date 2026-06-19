@@ -16,7 +16,7 @@ class ResultCubit extends Cubit<ResultState> {
       emit(ResultState.success(result));
     } on ScanException catch (e) {
       emit(ResultState.error(e.type, e.message));
-    } catch (_) {
+    } catch (e, stack) {
       emit(const ResultState.error('UNKNOWN', 'An unknown error occurred.'));
     }
   }

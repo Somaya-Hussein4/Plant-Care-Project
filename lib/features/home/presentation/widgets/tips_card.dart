@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/colors.dart';
 import 'package:graduation_project/core/theming/style.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class TipsCard extends StatelessWidget {
   const TipsCard({super.key});
@@ -24,7 +25,7 @@ class TipsCard extends StatelessWidget {
           ),
           child: Container(
             width: 341.w,
-            height: 165.h,
+            height: 170.h,
             padding: EdgeInsets.all(16.h),
             decoration: BoxDecoration(
               color: ColorsManager.white,
@@ -37,15 +38,31 @@ class TipsCard extends StatelessWidget {
                     Image.asset('assets/images/tips.png',
                         width: 40.w, height: 40.h),
                     Text(
-                      'Scanning Tips:',
+                      S.of(context).scanningTips,
                       style: TextStyles.font18DarkGreen400Weight,
                     ),
                   ],
                 ),
-                SizedBox(height: 8.h),
-                Image.asset(
-                  'assets/images/text.png',
-                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 8),
+                    Text(
+                      S.of(context).tip1,
+                      style: TextStyles.font16DarkGrey400Weight,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      S.of(context).tip2,
+                      style: TextStyles.font16DarkGrey400Weight,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      S.of(context).tip3,
+                      style: TextStyles.font16DarkGrey400Weight,
+                    ),
+                  ],
+                )
               ],
             ),
           ),

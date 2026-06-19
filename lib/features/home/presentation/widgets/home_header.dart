@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/core/theming/style.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -11,7 +12,7 @@ class HomeHeader extends StatelessWidget {
         top: true,
         bottom: false,
         child: Text(
-          'Plant Disease Detection',
+          S.of(context).pageTitle,
           style: TextStyles.font24Gradient400Weight,
         ),
       ),

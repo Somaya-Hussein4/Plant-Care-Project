@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/core/theming/style.dart';
 
 class CustomAppText extends StatelessWidget {
-  final String title;
+  final String Function(BuildContext) title;
 
   const CustomAppText({
     super.key,
@@ -16,7 +16,7 @@ class CustomAppText extends StatelessWidget {
         top: true,
         bottom: false,
         child: Text(
-          title,
+          title(context),
           style: TextStyles.font24Gradient400Weight,
         ),
       ),

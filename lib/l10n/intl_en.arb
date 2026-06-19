@@ -1,0 +1,146 @@
+{
+    "@@locale": "en",
+    "@@comment_register": "─── Register Screen ───",
+    "welcome": "Welcome",
+    "createAccount": "Create your new account",
+    "hintFullName": "Full Name",
+    "nameRequired": "Please enter your name",
+    "hintUserName": "User Name",
+    "hintEmail": "Email",
+    "emailRequired": "Please enter your email",
+    "hintPassword": "Password",
+    "passwordRequired": "Please enter your password",
+    "forgotPassword": "Forgot Password?",
+    "forgetPassword": "Forget Password",
+    "sendOtp": "Enter your email and we'll send you an OTP",
+    "sendOtpButton": "Send OTP",
+    "enterOtp": "Enter the OTP sent to",
+    "hintOtp": "OTP",
+    "checkEmail": "Check your email for the OTP",
+    "resetPassword": "Reset Password",
+    "passwordResetSuccess": "Password resetted successful",
+    "rememberMe": "Remember Me",
+    "signUp": "Sign Up",
+    "orContinueWith": "Or continue with",
+    "loginWithGoogle": "Login with Google",
+    "userDataNotFound": "User data not found",
+    "alreadyHaveAccount": "Already have an account?",
+    "logInLink": "Log In",
+    "@@comment_login": "─── Login Screen ───",
+    "welcomeBack": "Welcome Back",
+    "loginToAccount": "Log in to your account",
+    "forgotPassword": "Forget Password?",
+    "logIn": "Log In",
+    "dontHaveAccount": "Don't have an account?",
+    "signUpLink": "Signup",
+    "@@comment_scan": "─── Scan Screen ───",
+    "pageTitle": "Plant Disease Detection",
+    "scanTitle": "Scan Your Crop",
+    "scanSubtitle": "Capture a photo to detect plant diseases",
+    "takePhoto": "Take Photo",
+    "takePhotoSubtitle": "Capture your crop for analysis",
+    "or": "or",
+    "chooseFromGallery": "Choose from Gallery",
+    "scanningTips": "Scanning Tips",
+    "tip1": "Use natural lighting for best results",
+    "tip2": "Focus on affected leaves or stems",
+    "tip3": "Keep camera steady to avoid blur",
+    "@@comment_result": "─── Result Screen ───",
+    "scanAnotherPlant": "Scan Another Plant",
+    "seveirtyHigh": "High",
+    "seveirtyMedium": "Medium",
+    "seveirtyLow": "Low",
+    "healthy": "Healthy",
+    "unknown": "Unknown",
+    "tryAgain": "Try Again",
+    "tomatoPlant": "Tomato Plant",
+    "analyzingYourPlant": "Analyzing your plant...",
+    "@analyzingYourPlant": {
+        "description": "Text shown while the app is analyzing the plant image"
+    },
+    "unknownError": "An unknown error occurred while analyzing the image.",
+    "lowConfidenceError": "The analysis is inconclusive. Please try again with a clearer image.",
+    "lowResolutionError": "Low resolution image. Please take a higher quality photo.",
+    "unsupportedPlantError": "Unsupported plant type. Please scan a different plant.",
+    "@@comment_history": "─── History Screen ───",
+    "scanHistory": "Scan History",
+    "noScanYet": "No Scan Yet",
+    "clearHistory": "Clear History",
+    "@@comment_careguide": "─── Care Guide Screen ───",
+    "careGuideTitle": "Plant Care Guide",
+    "articles": "Articles",
+    "videos": "Videos",
+    "minsRead": "{count} mins Read",
+    "@minsRead": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "@@comment_profile": "─── Profile Screen ───",
+    "profilrImageUpdated": "Profile Image Updated",
+    "myProfile": "My Profile",
+    "languages": "Languages",
+    "aboutUs": "About us",
+    "logout": "Log out",
+    "profileImage": "Profile Image Updated Successfully",
+    "@@comment_notifications": "─── Notifications Screen ───",
+    "notifications": "Notifications",
+    "notifWelcome": "Welcome to Plant disease detection",
+    "notifReminder": "Remember Your plant needs You",
+    "notifSoil": "Check soil. It might be dry",
+    "notifSunshine": "Give your plant a sunshine break",
+    "notifWater": "Don't forget to water your plant.",
+    "remove": "Remove",
+    "@@comment_navbar": "─── Bottom Navigation Bar ───",
+    "navProfile": "Profile",
+    "navCareGuide": "Care Guide",
+    "navHistory": "History",
+    "navNotifications": "Notifications",
+    "@@comment_aboutus": "─── About Us Screen ───",
+    "plantCare": "Plant Care",
+    "aboutDescription": "Plant Care is a mobile application dedicated to helping tomato growers keep their plants healthy. In this version, all features are focused exclusively on tomato plants — from disease detection to daily care tips.",
+    "@aboutDescription": {
+        "description": "About page main description"
+    },
+    "whatWeOffer": "What We Offer:",
+    "@whatWeOffer": {
+        "description": "Section title for features list"
+    },
+    "featureDiseaseTitle": "Tomato Disease Diagnosis",
+    "@featureDiseaseTitle": {
+        "description": "Title for the disease diagnosis feature"
+    },
+    "featureDiseaseDescription": "Snap a photo of your tomato plant, and our AI will analyze it to identify any diseases or pests.",
+    "@featureDiseaseDescription": {
+        "description": "Description for the disease diagnosis feature"
+    },
+    "featureNotificationsTitle": "Smart Notifications",
+    "@featureNotificationsTitle": {
+        "description": "Title for the smart notifications feature"
+    },
+    "featureNotificationsDescription": "Get reminders to check on your plants as well as alerts for watering your plants based on weather conditions.",
+    "@featureNotificationsDescription": {
+        "description": "Description for the smart notifications feature"
+    },
+    "featureCareGuideTitle": "Care Guide",
+    "@featureCareGuideTitle": {
+        "description": "Title for the care guide feature"
+    },
+    "featureCareGuideDescription": "Articles and videos on growing, watering and healing your tomato plants — practical tips for everyday growers.",
+    "@featureCareGuideDescription": {
+        "description": "Description for the care guide feature"
+    },
+    "aboutVersionNote": "This version supports tomato plants only. More plant types are coming soon!",
+    "@aboutVersionNote": {
+        "description": "Bottom banner note about version limitations"
+    },
+    "projectDescription": "This Project is done as a Graduation Project",
+    "facultyDescription": "Egyptian E-Learning University",
+    "versionDescription": "Version 1.0.0",
+    "@@comment_logout": "─── Logout Screen ───",
+    "confirmLogout": "Confirm Logout",
+    "logoutConfirmation": "Are you sure you want to logout from your account?",
+    "cancel": "Cancel"
+}

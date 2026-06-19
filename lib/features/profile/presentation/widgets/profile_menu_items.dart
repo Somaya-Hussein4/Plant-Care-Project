@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/colors.dart';
 import 'package:graduation_project/core/theming/style.dart';
@@ -18,6 +17,7 @@ class ProfileMenuItem extends StatelessWidget {
     this.iconColor = ColorsManager.grey,
   });
 
+  @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
@@ -35,7 +35,7 @@ class ProfileMenuItem extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Container(
+              SizedBox(
                 width: 36,
                 height: 36,
                 child: Icon(icon, size: 18.r, color: iconColor),

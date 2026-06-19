@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:graduation_project/features/history/data/model/cloud_image_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'history_scan_model.g.dart';
 
 @JsonSerializable()
-class HistoryScanModel {
+class HistoryScanModel extends Equatable {
   @JsonKey(name: '_id')
   final String id;
 
@@ -18,7 +19,7 @@ class HistoryScanModel {
 
   final String createdAt;
 
-  HistoryScanModel({
+  const HistoryScanModel({
     required this.id,
     required this.plant,
     required this.healthStatus,
@@ -32,4 +33,14 @@ class HistoryScanModel {
       _$HistoryScanModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$HistoryScanModelToJson(this);
+  @override
+  List<Object?> get props => [
+        id,
+        plant,
+        healthStatus,
+        disease,
+        severity,
+        cloudImage,
+        createdAt,
+      ];
 }

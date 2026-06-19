@@ -19,4 +19,8 @@ class HistoryRemoteDataSource {
 
     throw Exception(response.message);
   }
+
+  Future<void> clearHistory(String userId) async {
+    await _apiService.clearHistory(userId);
+  }
 }

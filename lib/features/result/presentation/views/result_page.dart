@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:graduation_project/core/shared_widgets/custom_app_text.dart';
+import 'package:graduation_project/core/theming/colors.dart';
+import 'package:graduation_project/core/theming/style.dart';
 import 'package:graduation_project/features/result/data/models/scan_result_model.dart';
 import 'package:graduation_project/features/result/presentation/widgets/result_info.dart';
 import 'package:graduation_project/features/result/presentation/widgets/severity_badge.dart';
+import 'package:graduation_project/generated/l10n.dart';
+
 import '../../logic/cubit/result_cubit.dart';
 import '../../logic/cubit/result_state.dart';
 
@@ -13,7 +18,7 @@ class ResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0FFF4),
+      backgroundColor: ColorsManager.background,
       body: BlocBuilder<ResultCubit, ResultState>(
         builder: (context, state) {
           return state.when(
@@ -33,19 +38,15 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(color: Color(0xFF4CAF50)),
-          SizedBox(height: 16),
+          CircularProgressIndicator(color: ColorsManager.primaryGreen),
+          const SizedBox(height: 16),
           Text(
-            'Analyzing your plant...',
-            style: TextStyle(
-              fontSize: 16,
-              color: Color(0xFF388E3C),
-              fontWeight: FontWeight.w500,
-            ),
+            S.of(context).analyzingYourPlant,
+            style: TextStyles.font16darkGreen400Weight,
           ),
         ],
       ),
@@ -57,7 +58,8 @@ class _SuccessView extends StatelessWidget {
   final ScanResultModel scan;
   const _SuccessView({required this.scan});
 
-  bool get isHealthy => scan.healthStatus == 'healthy';
+  bool get isHealthy =>
+      scan.healthStatus.toLowerCase() == S.current.healthy.toLowerCase();
 
   @override
   Widget build(BuildContext context) {
@@ -65,20 +67,9 @@ class _SuccessView extends StatelessWidget {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // top bar
-            Text(
-              'Plant Disease Detection',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF2E7D32),
-              ),
-            ),
+            CustomAppText(title: (context) => S.of(context).pageTitle),
             const SizedBox(height: 16),
-
-            // image
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.network(
@@ -89,8 +80,6 @@ class _SuccessView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-
-            // plant name + severity badge
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -98,12 +87,8 @@ class _SuccessView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Tomato Plant',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1B5E20),
-                      ),
+                      S.of(context).tomatoPlant,
+                      style: TextStyles.font16darkGreen600Weight,
                     ),
                     const SizedBox(height: 4),
                     Row(
@@ -111,19 +96,19 @@ class _SuccessView extends StatelessWidget {
                         Icon(
                           isHealthy ? Icons.check_circle : Icons.error_rounded,
                           color: isHealthy
-                              ? const Color(0xFF4CAF50)
-                              : const Color(0xFFE53935),
+                              ? ColorsManager.primaryGreen
+                              : ColorsManager.secondaryRed,
                           size: 16,
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          isHealthy ? 'Healthy' : (scan.disease ?? 'Unknown'),
-                          style: TextStyle(
-                            fontSize: 14,
+                          isHealthy
+                              ? S.of(context).healthy
+                              : (scan.disease ?? S.of(context).unknown),
+                          style: TextStyles.font14Green400Weight.copyWith(
                             color: isHealthy
-                                ? const Color(0xFF4CAF50)
-                                : const Color(0xFFE53935),
-                            fontWeight: FontWeight.w500,
+                                ? ColorsManager.primaryGreen
+                                : ColorsManager.secondaryRed,
                           ),
                         ),
                       ],
@@ -133,27 +118,39 @@ class _SuccessView extends StatelessWidget {
                 SeverityBadge(severity: scan.severity),
               ],
             ),
-            const SizedBox(height: 16),
-
-            // info card
-            ResultInfoCard(description: scan.description),
-            const SizedBox(height: 24),
-
-            // button
+            const SizedBox(height: 25),
+            ResultInfoCard(
+              description: scan.description,
+              isHealthy: isHealthy,
+            ),
+            const SizedBox(height: 40),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => context.pop(),
-                icon: const Icon(Icons.qr_code_scanner, color: Colors.white),
-                label: const Text(
-                  'Scan Another Plant',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      ColorsManager.primaryGreen,
+                      ColorsManager.secondaryGreen,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF4CAF50),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                child: ElevatedButton.icon(
+                  onPressed: () => context.pop(),
+                  icon: const Icon(Icons.qr_code_scanner,
+                      color: ColorsManager.white),
+                  label: Text(
+                    S.of(context).scanAnotherPlant,
+                    style: TextStyles.font16White400Weight,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
                 ),
               ),
@@ -165,36 +162,47 @@ class _SuccessView extends StatelessWidget {
   }
 }
 
+String _localizedMessage(BuildContext context, String type, String message) {
+  return switch (type) {
+    'UNKNOWN' => S.of(context).unknownError,
+    'LOW_CONFIDENCE' => S.of(context).lowConfidenceError,
+    'BLURRY_IMAGE' => S.of(context).lowResolutionError,
+    'UNSUPPORTED_PLANT' => S.of(context).unsupportedPlantError,
+    _ => message,
+  };
+}
+
 class _ErrorView extends StatelessWidget {
   final String type;
   final String message;
   const _ErrorView({required this.type, required this.message});
 
-  _ErrorConfig get config => switch (type) {
-        'UNSUPPORTED_PLANT' => const _ErrorConfig(
+  _ErrorConfig _config(BuildContext context) => switch (type) {
+        'UNSUPPORTED_PLANT' => _ErrorConfig(
             icon: Icons.local_florist_outlined,
-            title: 'Tomato Plants Only',
-            color: Color(0xFFFF8F00),
+            title: S.of(context).unsupportedPlantError,
+            color: ColorsManager.orange,
           ),
-        'LOW_RESOLUTION' => const _ErrorConfig(
+        'BLURRY_IMAGE' => _ErrorConfig(
             icon: Icons.camera_outlined,
-            title: 'Image Too Blurry',
-            color: Color(0xFF1565C0),
+            title: S.of(context).lowResolutionError,
+            color: const Color(0xFF1565C0),
           ),
-        'LOW_CONFIDENCE' => const _ErrorConfig(
+        'LOW_CONFIDENCE' => _ErrorConfig(
             icon: Icons.help_outline_rounded,
-            title: "We're Not Sure",
-            color: Color(0xFF6A1B9A),
+            title: S.of(context).lowConfidenceError,
+            color: const Color(0xFF6A1B9A),
           ),
-        _ => const _ErrorConfig(
+        _ => _ErrorConfig(
             icon: Icons.warning_amber_rounded,
-            title: 'Something Went Wrong',
-            color: Color(0xFFE53935),
+            title: S.of(context).unknownError,
+            color: ColorsManager.secondaryRed,
           ),
       };
 
   @override
   Widget build(BuildContext context) {
+    final cfg = _config(context);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -204,42 +212,34 @@ class _ErrorView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: config.color.withOpacity(0.1),
+                color: cfg.color.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(config.icon, size: 64, color: config.color),
+              child: Icon(cfg.icon, size: 64, color: cfg.color),
             ),
             const SizedBox(height: 24),
             Text(
-              config.title,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF1B5E20),
-              ),
+              cfg.title,
+              style: TextStyles.font22darkGreen400Weight,
             ),
             const SizedBox(height: 12),
             Text(
-              message,
+              _localizedMessage(context, type, message),
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Color(0xFF555555),
-                height: 1.5,
-              ),
+              style: TextStyles.font14DarkGrey400Weight,
             ),
             const SizedBox(height: 40),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () => context.pop(),
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-                label: const Text(
-                  'Try Again',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+                icon: const Icon(Icons.arrow_back, color: ColorsManager.white),
+                label: Text(
+                  S.of(context).tryAgain,
+                  style: TextStyles.font16White400Weight,
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF4CAF50),
+                  backgroundColor: ColorsManager.primaryGreen,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/colors.dart';
 import 'package:graduation_project/core/theming/style.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class ScanCard extends StatelessWidget {
   final VoidCallback onScanTap;
@@ -17,7 +18,7 @@ class ScanCard extends StatelessWidget {
       onTap: onScanTap,
       child: Container(
         width: 341.w,
-        height: 200.h,
+        height: 210.h,
         padding: EdgeInsets.all(9.w),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
@@ -49,12 +50,12 @@ class ScanCard extends StatelessWidget {
             ),
             SizedBox(height: 9.h),
             Text(
-              'Take a Photo',
+              S.of(context).takePhoto,
               textAlign: TextAlign.center,
               style: TextStyles.font18White400Weight,
             ),
-            SizedBox(height: 5.h),
-            Text('Capture your crop for analysis',
+            SizedBox(height: 1.h),
+            Text(S.of(context).takePhotoSubtitle,
                 textAlign: TextAlign.center,
                 style: TextStyles.font18White400Weight),
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graduation_project/core/theming/style.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class AlreadyHaveAccountText extends StatelessWidget {
   const AlreadyHaveAccountText({super.key});
@@ -14,11 +15,11 @@ class AlreadyHaveAccountText extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Already have an account?',
+              text: S.of(context).alreadyHaveAccount,
               style: TextStyles.font14DarkGrey400Weight,
             ),
             TextSpan(
-              text: ' Login',
+              text: S.of(context).logInLink,
               style: TextStyles.font14Olive400Weight,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {

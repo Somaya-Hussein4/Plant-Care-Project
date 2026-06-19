@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation_project/core/theming/colors.dart';
-
 import 'package:graduation_project/core/theming/style.dart';
 
 class ProfileHeaderCard extends StatelessWidget {
@@ -11,11 +9,11 @@ class ProfileHeaderCard extends StatelessWidget {
   final String name;
 
   const ProfileHeaderCard({
-    Key? key,
+    super.key,
     required this.avatarImage,
     required this.onEditTap,
-    this.name = "Yomna",
-  }) : super(key: key);
+    required this.name,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +75,7 @@ class ProfileHeaderCard extends StatelessWidget {
                             border: Border.all(color: ColorsManager.midGrey),
                             boxShadow: [
                               BoxShadow(
-                                color: ColorsManager.black.withOpacity(0.2),
+                                color: ColorsManager.black,
                                 blurRadius: 4,
                               )
                             ],

@@ -7,7 +7,6 @@ import 'package:graduation_project/features/history/logic/cubit/history_state.da
 class HistoryCubit extends Cubit<HistoryState> {
   final HistoryRepository _repository;
   final FlutterSecureStorage _storage;
-  late String _userId;
 
   HistoryCubit(this._repository, {required FlutterSecureStorage storage})
       : _storage = storage,
@@ -22,7 +21,7 @@ class HistoryCubit extends Cubit<HistoryState> {
   Future<void> fetchHistory() async {
     emit(const HistoryState.loading());
 
-    _userId = await _storage.read(key: 'userId') ?? '';
+    final userId = await _storage.read(key: 'userId') ?? '';
     _page = 1;
     _hasMore = true;
     _scans = [];
@@ -31,14 +30,14 @@ class HistoryCubit extends Cubit<HistoryState> {
       final data = await _repository.getHistory(
         page: _page,
         limit: _limit,
-        userId: _userId,
+        userId: userId,
       );
 
       _scans = data;
       _hasMore = data.length == _limit;
 
       emit(HistoryState.success(
-        scans: _scans,
+        scans: List.from(_scans),
         hasMore: _hasMore,
       ));
     } catch (e) {
@@ -47,14 +46,18 @@ class HistoryCubit extends Cubit<HistoryState> {
   }
 
   Future<void> loadMore() async {
-    if (!_hasMore || _isLoadingMore) return;
+    ('=== loadMore called | _hasMprintore: $_hasMore | _isLoadingMore: $_isLoadingMore');
+
+    if (!_hasMore || _isLoadingMore) {
+      return;
+    }
 
     _isLoadingMore = true;
     _page++;
 
     try {
       final data = await _repository.getHistory(
-        userId: _userId,
+        userId: await _storage.read(key: 'userId') ?? '',
         page: _page,
         limit: _limit,
       );
@@ -63,6 +66,7 @@ class HistoryCubit extends Cubit<HistoryState> {
         _hasMore = false;
       } else {
         _scans.addAll(data);
+        _hasMore = data.length == _limit;
       }
 
       emit(HistoryState.success(
@@ -74,5 +78,18 @@ class HistoryCubit extends Cubit<HistoryState> {
     }
 
     _isLoadingMore = false;
+  }
+
+  Future<void> clearHistory() async {
+    try {
+      final userId = await _storage.read(key: 'userId') ?? '';
+      await _repository.deleteHistory(userId);
+      _scans.clear();
+      _hasMore = true;
+      _page = 1;
+      emit(const HistoryState.success(scans: [], hasMore: false));
+    } catch (e) {
+      emit(HistoryState.error(e.toString()));
+    }
   }
 }

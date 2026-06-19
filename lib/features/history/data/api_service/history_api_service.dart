@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:graduation_project/features/history/data/model/history_response_model.dart';
 import 'package:retrofit/retrofit.dart';
+
 part 'history_api_service.g.dart';
 
 @RestApi()
@@ -13,4 +14,7 @@ abstract class HistoryApiService {
     @Query('page') int page,
     @Query('limit') int limit,
   );
+  @DELETE('/history/{userId}')
+  Future<void> clearHistory(@Path('userId') String userId);
 }
+

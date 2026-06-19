@@ -7,7 +7,7 @@ class FeatureItem extends StatelessWidget {
   final String title;
   final String description;
 
-  const FeatureItem({
+  const FeatureItem({super.key, 
     required this.icon,
     required this.iconBgColor,
     required this.iconColor,

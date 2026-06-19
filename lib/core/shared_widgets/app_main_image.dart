@@ -5,7 +5,7 @@ class CenteredImage extends StatelessWidget {
   final double borderRadius;
   final double height;
 
-  CenteredImage({
+  const CenteredImage({
     super.key,
     required this.imagePath,
     this.borderRadius = 20,

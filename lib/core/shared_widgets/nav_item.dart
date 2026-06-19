@@ -22,9 +22,7 @@ class NavItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16.r),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 8.h,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 8.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -34,19 +32,24 @@ class NavItem extends StatelessWidget {
               height: 24.h,
             ),
             const SizedBox(height: 4),
-            ShaderMask(
-              shaderCallback: (bounds) => const LinearGradient(
-                colors: [
-                  ColorsManager.primaryGreen,
-                  ColorsManager.secondaryGreen,
-                ],
-              ).createShader(bounds),
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: ShaderMask(
+                shaderCallback: (bounds) => const LinearGradient(
+                  colors: [
+                    ColorsManager.primaryGreen,
+                    ColorsManager.secondaryGreen,
+                  ],
+                ).createShader(bounds),
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:graduation_project/core/networking/auth_api_service.dart';
 import 'package:graduation_project/features/auth/data/models/auth_response_model.dart';
+import 'package:graduation_project/features/auth/data/models/message_response_model.dart';
 import 'package:graduation_project/features/auth/data/models/token_model.dart';
 
 class AuthRepository {
@@ -15,11 +16,15 @@ class AuthRepository {
     return response;
   }
 
-  Future<AuthResponseModel> signup(String email, String password) async {
-    final response = await api.signup({
+  Future<AuthResponseModel> signup(
+      String userName, String email, String password) async {
+    final body = {
+      'username': userName,
       'email': email,
       'password': password,
-    });
+    };
+
+    final response = await api.signup(body);
     await _saveTokens(response.data.tokens, response.data.user!.id);
     return response;
   }
@@ -54,11 +59,23 @@ class AuthRepository {
     await storage.write(key: 'accessToken', value: tokens.accessToken);
     await storage.write(key: 'refreshToken', value: tokens.refreshToken);
     await storage.write(key: 'userId', value: userId);
+    print(
+        '=== TOKENS SAVED ==={$tokens.accessToken}, ${tokens.refreshToken}, $userId');
   }
 
   Future<void> _clearTokens() async {
     await storage.delete(key: 'accessToken');
     await storage.delete(key: 'refreshToken');
     await storage.delete(key: 'userId');
+  }
+
+  Future<MessageResponseModel> sendOtp(Map<String, dynamic> body) async {
+    final response = await api.sendOtp(body);
+    return response;
+  }
+
+  Future<MessageResponseModel> resetPassword(Map<String, dynamic> body) async {
+    final response = await api.resetPassword(body);
+    return response;
   }
 }

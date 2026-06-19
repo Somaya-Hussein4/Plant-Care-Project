@@ -5,23 +5,22 @@ import 'package:go_router/go_router.dart';
 import 'package:graduation_project/core/shared_widgets/app_button.dart';
 import 'package:graduation_project/core/shared_widgets/app_main_image.dart';
 import 'package:graduation_project/core/shared_widgets/app_text_form_field.dart';
-import 'package:graduation_project/core/theming/colors.dart';
-
 import 'package:graduation_project/core/theming/style.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_state.dart';
 import 'package:graduation_project/features/auth/presentation/widgets/already_have_account_text.dart';
 import 'package:graduation_project/features/auth/presentation/widgets/login_with_google.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class SignupPage extends StatefulWidget {
-  SignupPage({super.key});
+  const SignupPage({super.key});
 
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isFormValid = false;
   late final TextEditingController nameController;
   late final TextEditingController emailController;
@@ -85,14 +84,14 @@ class _SignupPageState extends State<SignupPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Welcome!",
+                          S.of(context).welcome,
                           style: TextStyles.font28Black600Weight,
                         ),
 
                         SizedBox(height: 8.h),
 
                         Text(
-                          "Create your account",
+                          S.of(context).createAccount,
                           style: TextStyles.font16Black400Weight,
                         ),
 
@@ -100,11 +99,11 @@ class _SignupPageState extends State<SignupPage> {
 
                         /// Name
                         AppTextFormField(
-                          hintText: "Name",
+                          hintText: S.of(context).hintFullName,
                           controller: nameController,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Please enter your name";
+                              return S.of(context).nameRequired;
                             }
                             return null;
                           },
@@ -114,11 +113,11 @@ class _SignupPageState extends State<SignupPage> {
 
                         /// Email
                         AppTextFormField(
-                          hintText: "Email",
+                          hintText: S.of(context).hintEmail,
                           controller: emailController,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Please enter your email";
+                              return S.of(context).emailRequired;
                             }
                             return null;
                           },
@@ -128,12 +127,12 @@ class _SignupPageState extends State<SignupPage> {
 
                         /// Password
                         AppTextFormField(
-                          hintText: "Password",
+                          hintText: S.of(context).hintPassword,
                           controller: passwordController,
                           obscureText: true,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Please enter your password";
+                              return S.of(context).passwordRequired;
                             }
                             return null;
                           },
@@ -141,13 +140,9 @@ class _SignupPageState extends State<SignupPage> {
 
                         SizedBox(height: 50.h),
 
-                        /// Login button / loader
                         state.maybeWhen(
-                            loading: () => const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
                             orElse: () => AppButton(
-                                  text: "Sign Up",
+                                  text: S.of(context).signUp,
                                   onPressed: _isFormValid
                                       ? () {
                                           if (!_formKey.currentState!
@@ -170,7 +165,7 @@ class _SignupPageState extends State<SignupPage> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               child: Text(
-                                "Or continue with",
+                                S.of(context).orContinueWith,
                                 style: TextStyles.font14DarkGrey400Weight,
                               ),
                             ),

@@ -8,9 +8,9 @@ import 'package:graduation_project/core/theming/style.dart';
 import 'package:graduation_project/features/home/logic/home_cubit.dart';
 import 'package:graduation_project/features/home/logic/home_state.dart';
 import 'package:graduation_project/features/home/presentation/widgets/choose-from-gallery.dart';
-
 import 'package:graduation_project/features/home/presentation/widgets/scan-card.dart';
 import 'package:graduation_project/features/home/presentation/widgets/tips_card.dart';
+import 'package:graduation_project/generated/l10n.dart';
 import 'package:image_picker/image_picker.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,18 +37,14 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CustomAppText(title: 'Plant Disease Detection'),
+              CustomAppText(title: (context) => S.of(context).pageTitle),
               SizedBox(height: 30.h),
               Text(
-                'Scan Your Crop',
+                S.of(context).scanTitle,
                 style: TextStyles.font18DarkGreen400Weight,
               ),
               Text(
-                'Capture a photo to detect plant ',
-                style: TextStyles.font18DarkGreen400Weight,
-              ),
-              Text(
-                'diseases',
+                S.of(context).scanSubtitle,
                 style: TextStyles.font18DarkGreen400Weight,
               ),
               SizedBox(height: 20.h),
@@ -66,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.h),
                       child: Text(
-                        "OR",
+                        S.of(context).or,
                         style: TextStyles.font18DarkGreen400Weight,
                       ),
                     ),

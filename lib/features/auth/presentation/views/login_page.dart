@@ -5,23 +5,21 @@ import 'package:go_router/go_router.dart';
 import 'package:graduation_project/core/shared_widgets/app_button.dart';
 import 'package:graduation_project/core/shared_widgets/app_main_image.dart';
 import 'package:graduation_project/core/shared_widgets/app_text_form_field.dart';
-import 'package:graduation_project/core/theming/colors.dart';
-
 import 'package:graduation_project/core/theming/style.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:graduation_project/features/auth/logic/cubit/auth_state.dart';
 import 'package:graduation_project/features/auth/presentation/widgets/dont_have_account_text.dart';
-import 'package:graduation_project/features/auth/presentation/widgets/login_with_google.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isFormValid = false;
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
@@ -82,14 +80,14 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Welcome Back!",
+                          S.of(context).welcomeBack,
                           style: TextStyles.font28Black600Weight,
                         ),
 
                         SizedBox(height: 8.h),
 
                         Text(
-                          "Login to your account",
+                          S.of(context).loginToAccount,
                           style: TextStyles.font16Black400Weight,
                         ),
 
@@ -97,11 +95,11 @@ class _LoginPageState extends State<LoginPage> {
 
                         /// Email
                         AppTextFormField(
-                          hintText: "Email",
+                          hintText: S.of(context).hintEmail,
                           controller: emailController,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Please enter your email";
+                              return S.of(context).emailRequired;
                             }
                             return null;
                           },
@@ -111,12 +109,12 @@ class _LoginPageState extends State<LoginPage> {
 
                         /// Password
                         AppTextFormField(
-                          hintText: "Password",
+                          hintText: S.of(context).hintPassword,
                           controller: passwordController,
                           obscureText: true,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Please enter your password";
+                              return S.of(context).passwordRequired;
                             }
                             return null;
                           },
@@ -130,8 +128,9 @@ class _LoginPageState extends State<LoginPage> {
                                 context.push('/forgot-password');
                               },
                               child: Text(
-                                "Forgot Password?",
-                                style: TextStyles.font14DarkGrey400Weight,
+                                S.of(context).forgotPassword,
+                                style: TextStyles
+                                    .font16secondaryRedWithOpacity400Weight,
                               ),
                             ),
                           ),
@@ -141,15 +140,11 @@ class _LoginPageState extends State<LoginPage> {
 
                         /// Login button / loader
                         state.maybeWhen(
-                            loading: () => const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
                             orElse: () => AppButton(
-                                  text: "Login",
+                                  text: S.of(context).logIn,
                                   onPressed: _isFormValid
                                       ? () {
                                           if (!_formKey.currentState!
-                                              // ignore: curly_braces_in_flow_control_structures
                                               .validate()) {
                                             return;
                                           }

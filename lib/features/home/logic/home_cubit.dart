@@ -16,7 +16,6 @@ class HomeCubit extends Cubit<HomeState> {
         emit(HomeNavigateToResult(path));
       }
     } catch (e) {
-      print('Error picking image: $e');
     }
   }
 

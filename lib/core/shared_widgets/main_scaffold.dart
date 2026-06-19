@@ -13,7 +13,7 @@ class MainScaffold extends StatelessWidget {
     final location = GoRouterState.of(context).uri.toString();
 
     if (location.startsWith('/profile')) return 0;
-    if (location.startsWith('/plants')) return 1;
+    if (location.startsWith('/guide')) return 1;
     if (location.startsWith('/history')) return 3;
     if (location.startsWith('/notifications')) return 4;
 
@@ -69,11 +69,14 @@ class MainScaffold extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: MediaQuery.removePadding(
-        context: context,
-        removeBottom: true,
-        child: BottomNavBar(
-          currentIndex: _currentIndex(context),
+      bottomNavigationBar: Directionality(
+        textDirection: TextDirection.ltr,
+        child: MediaQuery.removePadding(
+          context: context,
+          removeBottom: true,
+          child: BottomNavBar(
+            currentIndex: _currentIndex(context),
+          ),
         ),
       ),
     );

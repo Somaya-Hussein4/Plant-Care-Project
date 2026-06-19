@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graduation_project/core/shared_widgets/nav_item.dart';
+import 'package:graduation_project/generated/l10n.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -27,35 +28,50 @@ class BottomNavBar extends StatelessWidget {
             bottom: 18,
             left: 0,
             right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                NavItem(
-                  image: 'assets/images/person.png',
-                  label: 'Profile',
-                  isActive: currentIndex == 0,
-                  onTap: () => context.go('/profile'),
-                ),
-                NavItem(
-                  image: 'assets/images/plant.png',
-                  label: 'Care Guide',
-                  isActive: currentIndex == 1,
-                  onTap: () => context.go('/plants'),
-                ),
-                const SizedBox(width: 64),
-                NavItem(
-                  image: 'assets/images/history.png',
-                  label: 'History',
-                  isActive: currentIndex == 3,
-                  onTap: () => context.go('/history'),
-                ),
-                NavItem(
-                  image: 'assets/images/bell.png',
-                  label: 'Notifications',
-                  isActive: currentIndex == 4,
-                  onTap: () => context.go('/notifications'),
-                ),
-              ],
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: 70,
+                    child: NavItem(
+                      image: 'assets/images/person.png',
+                      label: S.of(context).navProfile,
+                      isActive: currentIndex == 0,
+                      onTap: () => context.go('/profile'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 70,
+                    child: NavItem(
+                      image: 'assets/images/plant.png',
+                      label: S.of(context).navCareGuide,
+                      isActive: currentIndex == 1,
+                      onTap: () => context.go('/guide'),
+                    ),
+                  ),
+                  const SizedBox(width: 64),
+                  SizedBox(
+                    width: 70,
+                    child: NavItem(
+                      image: 'assets/images/history.png',
+                      label: S.of(context).navHistory,
+                      isActive: currentIndex == 3,
+                      onTap: () => context.go('/history'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 70,
+                    child: NavItem(
+                      image: 'assets/images/bell.png',
+                      label: S.of(context).navNotifications,
+                      isActive: currentIndex == 4,
+                      onTap: () => context.go('/notifications'),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
